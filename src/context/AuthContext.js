@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { authService } from '../services/api';
 
 export const AuthContext = createContext();
@@ -28,7 +28,10 @@ export const AuthProvider = ({ children }) => {
       setUser(user);
       return { success: true };
     } catch (error) {
-      return { success: false, message: error.response?.data?.message || 'Erreur de connexion' };
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erreur de connexion'
+      };
     }
   };
 
@@ -42,4 +45,9 @@ export const AuthProvider = ({ children }) => {
       {!loading && children}
     </AuthContext.Provider>
   );
+};
+
+/* ✅ LE HOOK MANQUANT */
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
